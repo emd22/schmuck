@@ -1,0 +1,24 @@
+=======SCHMUCK========
+
+i - declares integer
+s - declares string
+^ - marker before name
+. - go to next line
+
+=======INTEGERS=======
+
+Imagine having the 'N' as a variable name.
+
+example: i^N!8
+
+"i^" is declaring that 'N' is a integer.
+'!' is saying that 'N' uses a single
+character number as a value
+
+example2: i^R@12
+
+so, here i used variable name 'R'.
+when using a '@' symbol, you can have ints
+from 10 up to 99.
+
+========STRINGS========
