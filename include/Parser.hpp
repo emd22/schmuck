@@ -1,9 +1,9 @@
 #pragma once
 #include "Error.hpp"
 #include "Variable.hpp"
+#include "Lists.hpp"
 
 ErrorList error_list;
-VariableList variable_list;
 
 class Parse {
 public:
@@ -23,29 +23,16 @@ public:
 
   void ParseStrDecl(std::string line) {
     if (line[1] == '^') {
-      if (line[3] == '!') {
-        variable_list.new_variable(line[2], TYPE_STRING, 0, line.substr(4, 1));
-      } else if (line[3] == '@') {
-        if (line[4] == '!') {
-          int temp_length = line[5] - '0';
-          if (line[6] == ':') {
-            variable_list.new_variable(line[2], TYPE_STRING, 0, line.substr(7, temp_length));
-          }
-        } else if (line[4] == '@') {
-          int temp_length = std::stoi(line.substr(5, 2));
-          if (line[7] == ':') {
-            variable_list.new_variable(line[2], TYPE_STRING, 0, line.substr(8, temp_length));
-          } else {
-            error_list.send_error(line[7], SYNTAX_ERROR, current_line);
-          }
-        }
-      } else {
-        variable_list.new_variable(line[2], TYPE_STRING, 0, "EMPTY");
+      int at = 4;
+      std::string inner = "";
+      while (line[at] != '~') {
+        inner += line[at];
+        at++;
       }
+      variable_list.new_variable(line[2], TYPE_STRING, 0, inner);
     } else {
       error_list.send_error(line[1], SYNTAX_ERROR, current_line);
     }
   }
 };
-
 Parse parser;

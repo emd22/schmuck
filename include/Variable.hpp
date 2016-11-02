@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <algorithm>
 #include "Line.hpp"
 
 enum VariableType {
@@ -28,6 +29,15 @@ public:
       vars.i_value = i_value;
       vars.type = TYPE_INT;
       variables.push_back(vars);
+    }
+  }
+
+  void rem_variable(char name) {
+    for (size_t i = 0; i < variables.size(); i++) {
+      if (variables[i].name == name) {
+        variables.erase(variables.begin() + i);
+        return;
+      }
     }
   }
 

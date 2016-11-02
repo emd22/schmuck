@@ -19,8 +19,8 @@ const std::map<int, std::string> error_strings {
 
 class ErrorList {
 public:
-  void send_error(char cause, int type, int line) {
-    std::string temp_string = "UNKNOWN \'";
+  void send_error(char cause, int type, int line, std::string message = "UNKNOWN") {
+    std::string temp_string = message += " \'";
     temp_string += cause;
     temp_string += "\'";
     Error err;
