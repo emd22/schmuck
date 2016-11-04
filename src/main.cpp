@@ -9,11 +9,23 @@
 #include "../include/Parser.hpp"
 
 int main() {
+  std::ifstream file("./test.shmk");
+  std::vector<std::string> lines;
+
+  std::string line;
   while (std::getline(file, line)) {
+    lines.push_back(line);
+  }
+
+  for (int current_line = 0; current_line < lines.size(); current_line++) {
+    std::string &line = lines[current_line];
+    if (line == "ec.") {
+      current_line += 2;
+    }
     if (line[0] == 'i') {
-      parser.ParseIntDecl(line);
+      parser.ParseIntDecl(line, current_line);
     } else if (line[0] == 's') {
-      parser.ParseStrDecl(line);
+      parser.ParseStrDecl(line, current_line);
     } else if (line[0] == 'E') {
       break;
     } else if (line[0] == 'p') {
@@ -37,17 +49,24 @@ int main() {
             at++;
           }
           std::cout << inner << "\n";
-      } else {
-        error_list.send_error(line[1], SYNTAX_ERROR, current_line);
+      }
+    } else if (line[0] == 'c') {
+      if (line[1] == '^') {
+        goto_list.new_goto(line[2], current_line);
+      }
+    } else if (line[0] == 'g') {
+      if (line[1] == '^') {
+        current_line = goto_list.GetGoto(goto_list.GetGotoIndex(line[2])).line;
       }
     } else {
-      error_list.send_error(line[0], SYNTAX_ERROR, current_line);
+      if (line != "ec.") {
+        error_list.send_error(line[1], SYNTAX_ERROR, current_line);
+      }
     }
     if (line.back() != '.') {
       error_list.send_error(line.back(), SYNTAX_ERROR, current_line, "UNEXPECTED END OF LINE");
       break;
     }
-    current_line++;
   }
     error_list.PrintErrors();
     variable_list.PrintVariables();

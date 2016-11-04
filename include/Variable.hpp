@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <algorithm>
-#include "Line.hpp"
 
 enum VariableType {
   TYPE_INT,
